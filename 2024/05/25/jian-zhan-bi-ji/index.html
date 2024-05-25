@@ -5,11 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="建站笔记, xt的博客">
-    <meta name="description" content="新建文章
-hexo new &amp;quot;建站笔记&amp;quot;
-上传到github (上传有延迟 一两分钟左右)
-hexo g -d
-已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程">
+    <meta name="description" content="新建文章hexo new &amp;quot;建站笔记&amp;quot;上传到github (上传有延迟 一两分钟左右)hexo g -d
+已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程仓库，">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -56,7 +53,9 @@ hexo g -d
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
 
 
 <body>
@@ -262,7 +261,7 @@ hexo g -d
         
         <li><div class="divider"></div></li>
         <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+            <a href="https://github.com/xtley" class="waves-effect waves-light" target="_blank">
                 <i class="fab fa-github-square fa-fw"></i>Fork Me
             </a>
         </li>
@@ -319,7 +318,7 @@ hexo g -d
     }
 </style>
 
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+<a href="https://github.com/xtley" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
    data-tooltip="Fork Me" data-position="left" data-delay="50">
     <svg viewBox="0 0 250 250" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -384,12 +383,32 @@ hexo g -d
                 
 
                 
-
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2024-05-25
+                </div>
                 
 
                 
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    717
+                </div>
+                
 
                 
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    3 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
         <hr class="clearfix">
@@ -408,17 +427,72 @@ hexo g -d
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>新建文章</p>
-<pre class="line-numbers language-none"><code class="language-none">hexo new &quot;建站笔记&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>上传到github (上传有延迟 一两分钟左右)</p>
-<pre class="line-numbers language-none"><code class="language-none">hexo g -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <p>新建文章<br><pre class="line-numbers language-none"><code class="language-none">hexo new &quot;建站笔记&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>上传到github (上传有延迟 一两分钟左右)<br><pre class="line-numbers language-none"><code class="language-none">hexo g -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></p>
 <p>已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程仓库，所以不需要担心丢失。</p>
-<p>更换主题</p>
-<pre class="line-numbers language-none"><code class="language-none">在博客文件目录下的theme中把要使的主题从clone下来，并且在到根目录下配置切换theme: 新主题名(与文件名一致)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>遇到报错</p>
-<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">remote: error: GH013: Repository rule violations found <span class="token keyword">for</span> refs/heads/main.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>报错原因上传的文件中泄露了key,解决方法到报错中给出的网站去允许上传</p>
+<p>更换主题<br><pre class="line-numbers language-none"><code class="language-none">在博客文件目录下的theme中把要使的主题从clone下来，并且在到根目录下配置切换theme: 新主题名(与文件名一致)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>遇到报错<br><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">remote: error: GH013: Repository rule violations found <span class="token keyword">for</span> refs/heads/main.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><br>报错原因上传的文件中泄露了key,解决方法到报错中给出的网站去允许上传</p>
 <p>代码块的问题：不要使用 hexo g 直接使用 hexo clean和hexo server 或 hexo d</p>
+<p>代码选择问题：参考<a target="_blank" rel="noopener" href="https://github.com/blinkfox/hexo-theme-matery/issues/919#issuecomment-2099749708">https://github.com/blinkfox/hexo-theme-matery/issues/919#issuecomment-2099749708</a><br><pre class="line-numbers language-none"><code class="language-none">prism.css 中的替换成pre[class*&#x3D;language-].line-numbers&gt;code&#123;position:sticky;white-space:inherit&#125;.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></p>
+<p>使用hexo-asset-image插件<br>然后找到 /node_modules/hexo-asset-image/index.js 这个文件，将它的内容替换为如下内容<br><pre class="line-numbers language-none"><code class="language-none">&#39;use strict&#39;;
+var cheerio &#x3D; require(&#39;cheerio&#39;);
+     
+&#x2F;&#x2F; http:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;14480345&#x2F;how-to-get-the-nth-occurrence-in-a-string
+function getPosition(str, m, i) &#123;
+  return str.split(m, i).join(m).length;
+&#125;
+     
+var version &#x3D; String(hexo.version).split(&#39;.&#39;);
+hexo.extend.filter.register(&#39;after_post_render&#39;, function(data)&#123;
+  var config &#x3D; hexo.config;
+  if(config.post_asset_folder)&#123;
+       var link &#x3D; data.permalink;
+   if(version.length &gt; 0 &amp;&amp; Number(version[0]) &#x3D;&#x3D; 3)
+      var beginPos &#x3D; getPosition(link, &#39;&#x2F;&#39;, 1) + 1;
+   else
+      var beginPos &#x3D; getPosition(link, &#39;&#x2F;&#39;, 3) + 1;
+   &#x2F;&#x2F; In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;...&#x2F;about&#x2F;index.html&quot;.
+   var endPos &#x3D; link.lastIndexOf(&#39;&#x2F;&#39;) + 1;
+    link &#x3D; link.substring(beginPos, endPos);
+     
+    var toprocess &#x3D; [&#39;excerpt&#39;, &#39;more&#39;, &#39;content&#39;];
+    for(var i &#x3D; 0; i &lt; toprocess.length; i++)&#123;
+      var key &#x3D; toprocess[i];
+      
+      var $ &#x3D; cheerio.load(data[key], &#123;
+        ignoreWhitespace: false,
+        xmlMode: false,
+        lowerCaseTags: false,
+        decodeEntities: false
+      &#125;);
+     
+      $(&#39;img&#39;).each(function()&#123;
+       if ($(this).attr(&#39;src&#39;))&#123;
+           &#x2F;&#x2F; For windows style path, we replace &#39;\&#39; to &#39;&#x2F;&#39;.
+           var src &#x3D; $(this).attr(&#39;src&#39;).replace(&#39;\\&#39;, &#39;&#x2F;&#39;);
+           if(!&#x2F;http[s]*.*|\&#x2F;\&#x2F;.*&#x2F;.test(src) &amp;&amp;
+              !&#x2F;^\s*\&#x2F;&#x2F;.test(src)) &#123;
+             &#x2F;&#x2F; For &quot;about&quot; page, the first part of &quot;src&quot; can&#39;t be removed.
+             &#x2F;&#x2F; In addition, to support multi-level local directory.
+             var linkArray &#x3D; link.split(&#39;&#x2F;&#39;).filter(function(elem)&#123;
+               return elem !&#x3D; &#39;&#39;;
+             &#125;);
+             var srcArray &#x3D; src.split(&#39;&#x2F;&#39;).filter(function(elem)&#123;
+               return elem !&#x3D; &#39;&#39; &amp;&amp; elem !&#x3D; &#39;.&#39;;
+             &#125;);
+             if(srcArray.length &gt; 1)
+               srcArray.shift();
+             src &#x3D; srcArray.join(&#39;&#x2F;&#39;);
+             $(this).attr(&#39;src&#39;, config.root + link + src);
+             console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);
+           &#125;
+       &#125;else&#123;
+           console.info&amp;&amp;console.info(&quot;no src attr, skipped...&quot;);
+           console.info&amp;&amp;console.info($(this));
+       &#125;
+      &#125;);
+      data[key] &#x3D; $.html();
+    &#125;
+  &#125;
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>这样在插入图片的时候直接使用本地路径，网络上也可以看到了<br>或使用hexo-asset-img插件来插入图片</p>
 
                 
             </div>
@@ -585,7 +659,7 @@ hexo g -d
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
-                            John Doe
+                            xtley
                             
                         </span>
                     </div>
@@ -636,6 +710,43 @@ hexo g -d
 
 </div>
 
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: xt的博客<br />'
+            + '文章作者: xtley<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
 
 
 <!-- 代码块功能依赖 -->
@@ -814,11 +925,14 @@ hexo g -d
             
                 <span id="year">2024</span>
             
-            <a href="/about" target="_blank">John Doe</a>
+            <a href="/about" target="_blank">xtley</a>
             |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
             |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
             
             <br>
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">2.3k</span>
             
             
             

@@ -4,10 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="概率与期望dp, xt的博客">
-    <meta name="description" content="由一道题解决有后效性的dp问题/有循环依赖的概率dp问题https://atcoder.jp/contests/abc333/tasks/abc333_f
-#include&amp;lt;iostream&gt;
-using namespace std;">
+    <meta name="keywords" content="杜教筛, xt的博客">
+    <meta name="description" content="图片测试：
+迪利克雷卷积定义:$f(n),g(n)是两个积性函数$
+(f*g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)性质:
+1.交换律：$fg=gf$
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +21,7 @@ using namespace std;">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>概率与期望dp | xt的博客</title>
+    <title>杜教筛 | xt的博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -338,12 +340,12 @@ using namespace std;">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">概率与期望dp</h1>
+                    <h1 class="description center-align post-title">杜教筛</h1>
                 </div>
             </div>
         </div>
@@ -365,9 +367,13 @@ using namespace std;">
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">
+                                <span class="chip bg-color">算法竞赛</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -393,14 +399,14 @@ using namespace std;">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    668
+                    881
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -428,65 +434,87 @@ using namespace std;">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="由一道题解决有后效性的dp问题-有循环依赖的概率dp问题"><a href="#由一道题解决有后效性的dp问题-有循环依赖的概率dp问题" class="headerlink" title="由一道题解决有后效性的dp问题/有循环依赖的概率dp问题"></a>由一道题解决有后效性的dp问题/有循环依赖的概率dp问题</h2><p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc333/tasks/abc333_f">https://atcoder.jp/contests/abc333/tasks/abc333_f</a></p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">&lt;iostream></span></span>
-<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
-<span class="token keyword">using</span> LL <span class="token operator">=</span> <span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> MAX_N <span class="token operator">=</span> <span class="token number">3001</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> MOD <span class="token operator">=</span> <span class="token number">998244353</span><span class="token punctuation">;</span>
-<span class="token keyword">const</span> <span class="token keyword">int</span> inv2 <span class="token operator">=</span> <span class="token punctuation">(</span>MOD <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">;</span>
-LL <span class="token function">mypow</span><span class="token punctuation">(</span>LL x<span class="token punctuation">,</span> LL y<span class="token punctuation">,</span> <span class="token keyword">int</span> mod <span class="token operator">=</span> MOD<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    x <span class="token operator">%=</span> mod<span class="token punctuation">;</span>
-    LL res <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">%</span> mod<span class="token punctuation">;</span>
-    <span class="token keyword">while</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">if</span><span class="token punctuation">(</span>y <span class="token operator">&amp;</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            res <span class="token operator">=</span> res <span class="token operator">*</span> x <span class="token operator">%</span> mod<span class="token punctuation">;</span>
+                <p>图片测试：<br><img src="/2024/05/25/du-jiao-shai/test.png" alt="图片测试："></p>
+<h3 id="迪利克雷卷积"><a href="#迪利克雷卷积" class="headerlink" title="迪利克雷卷积"></a>迪利克雷卷积</h3><p>定义:$f(n),g(n)是两个积性函数$</p>
+<script type="math/tex; mode=display">(f*g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)</script><p>性质:</p>
+<p>1.交换律：$f<em>g=g</em>f$</p>
+<p>2.结合律：$(f<em>g)</em>h=f<em>(g</em>h)$</p>
+<p>3.分配律：$(f+g)<em>h=f</em>h=g*h$</p>
+<h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><p>1.元函数： $\xi(n)=[n=1]$</p>
+<p>2.常数函数：$1(n)=1$</p>
+<p>3.恒等函数：$id(n)=n$</p>
+<p>4.欧拉函数：$\varphi(n)=\sum_{i=1}^{n}[gcd(i,n)=1]$</p>
+<p>性质：$\sum_{d|n}{\varphi(d)}=n$</p>
+<p>5.莫比乌斯函数：<br>$<br>\mu(n)=<br>\begin{cases}<br>1 \quad n=1\\<br>0 \quad n包含相同质因子\\<br>(-1)^s \quad n=p_1p_2…p_s \\<br>\end{cases}<br>$</p>
+<p>性质：$\sum_{d|n}\mu(d)=[n=1]$</p>
+<p>6.莫比乌斯函数与欧拉函数的联系：</p>
+<script type="math/tex; mode=display">\sum_{d|n}\mu(d)\frac{n}{d}=\varphi(n)</script><h3 id="常用卷积关系"><a href="#常用卷积关系" class="headerlink" title="常用卷积关系"></a>常用卷积关系</h3><p>1.$\sum_{d|n}\mu(d)=[n=1] \quad \Longleftrightarrow \quad u*1=\xi$</p>
+<p>2.$\sum_{d|n}\varphi(d)=n \quad \Longleftrightarrow \quad \varphi*1=id$</p>
+<p>3.$\sum_{d|n}\mu(d)·\frac{n}{d}=n \quad \Longleftrightarrow \quad u*id=\varphi$</p>
+<p>4.$f*\xi=f$</p>
+<p>5.$f*1\not=f$</p>
+<p>6.$f<em>u</em>1=f$</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><p>$(\mu*1)(n)=\sum_{d|n}\mu(d)·1(\frac{n}{d})=\sum_{d|n}\mu(d)=[n=1]=\xi(n)$</p>
+<p>$(\varphi*1)(n)=\sum_{d|n}\varphi(d)·1(\frac{n}{d})=\sum_{d|n}\varphi(d)=[n=1]=id(n)$</p>
+<p>$(\mu*id)(n)=\sum_{d|n}\mu(d)·id(\frac{n}{d})=\sum_{d|n}\mu(d)·\frac{n}{d}=\varphi(n)$</p>
+<p>$(f*\xi)(n)=\sum_{d|n}f(d)·\xi(\frac{n}{d})=\sum_{d|n}f(d)·[\frac{n}{d}=1]=f(n)$</p>
+<p>$(f*1)(n)=\sum_{d|n}f(d)·1(\frac{n}{d})=\sum_{d|n}f(d)$</p>
+<p>$(f<em>u</em>1)(n)=(f<em>(u</em>1)(n))(n)=(f*\xi)(n)=f(n)$</p>
+<h3 id="杜教筛原理"><a href="#杜教筛原理" class="headerlink" title="杜教筛原理"></a>杜教筛原理</h3><p>用途：在低于线性时间里，高效率求一些积性函数的前缀和</p>
+<p>原理：整除分块+迪利克雷卷积+线性筛</p>
+<p>公式:<script type="math/tex">g(1)S(n)=\sum_{i=1}^n{(f*g)(i)}-\sum_{i=2}^n{g(i)S(\lfloor{\frac {n}{i}\rfloor})}</script></p>
+<p>推导:$\sum_{i=1}^n(f*g)(i)$</p>
+<p>$=\sum_{i=1}^{n}\sum_{d|i}f(\frac{i}{d})g(d)=\sum_{i=1}^n\sum_{d=1}^n[d|i]f(\frac{i}{d})g(d)$</p>
+<p>$=\sum_{d=1}^{n}\sum_{i=1}^{n}[d|i]f(\frac{i}{d})g(d)=\sum_{d=1}^{n}\sum_{id=1}^n[d|id]f(\frac{id}{d})g(d)$</p>
+<p>$=\sum_{d=1}^{n}\sum_{i=1}^{\frac{n}{d}}f(i)g(d)=\sum_{d=1}^{n}g(d)S(\frac{n}{d})$<br>$=g(1)S(n)+\sum_{d=2}^{n}g(d)S(\frac{n}{d})$</p>
+<p>具体做法：</p>
+<p>$1. \quad 使用线性筛预处理出n较小时的s(n)来剪枝$</p>
+<p>$2. \quad 使用哈希表来做记忆化剪枝$</p>
+<p>$3. \quad 使用整除分块做递归$</p>
+<p>时间复杂度：$O(n^\frac {2}{3})$</p>
+<h3 id="杜教筛模板"><a href="#杜教筛模板" class="headerlink" title="杜教筛模板"></a>杜教筛模板</h3><p>以该题为例:</p>
+<script type="math/tex; mode=display">求s(n)=\sum_{i=1}^{n}\varphi(i)</script><p>解:<br>因为<br>$\varphi<em>1=id,所以f=\varphi,g=1,f</em>g=id$</p>
+<p>$s(n)=\sum_{i=1}^{n}id(i)-\sum_{i=2}^{n}1(d)s(\frac{n}{i})$</p>
+<p>$=\sum_{i=1}^{n}i-\sum_{i=2}^{n}s({\frac{n}{i}})=\frac{n(n+1)}{2}-\sum_{i=1}^{n}s(\frac{n}{i})$</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> N<span class="token operator">=</span><span class="token number">2e5</span><span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">;</span>
+<span class="token comment">// 线性筛所需</span>
+<span class="token keyword">bool</span> vis<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+vector<span class="token operator">&lt;</span>ll<span class="token operator">></span> pri<span class="token punctuation">;</span>
+<span class="token comment">// 所需处理的函数</span>
+ll mu<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">,</span>phi<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>
+map<span class="token operator">&lt;</span>ll<span class="token punctuation">,</span>ll<span class="token operator">></span> mp_phi<span class="token punctuation">;</span>
+<span class="token comment">// 线性筛初始化</span>
+<span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    phi<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>  <span class="token comment">// n=1时的函数取值</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>vis<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            pri<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//处理n为素数时的函数取值</span>
         <span class="token punctuation">&#125;</span>
-        y <span class="token operator">>>=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-        x <span class="token operator">=</span> x <span class="token operator">*</span> x <span class="token operator">%</span> mod<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-    <span class="token keyword">return</span> res<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-LL <span class="token function">inv</span><span class="token punctuation">(</span>LL x<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">return</span> <span class="token function">mypow</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> MOD <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-<span class="token comment">// j = 1: dp[i][j] = dp[i][i] / 2</span>
-<span class="token comment">// j > 1: dp[i][j] = (dp[i - 1][j - 1](会降为常数) + dp[i][j - 1](会降为dp[i][i])) / 2</span>
-LL dp<span class="token punctuation">[</span>MAX_N<span class="token punctuation">]</span><span class="token punctuation">[</span>MAX_N<span class="token punctuation">]</span><span class="token punctuation">;</span>
-LL a<span class="token punctuation">[</span>MAX_N<span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span>MAX_N<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment">// 所以假设：dp[i][j] = a[j](已知) * dp[i][i](变数) + b[j](已知); 待定系数式</span>
-<span class="token comment">// 对于每一个i值，我们共有i个式子(二元一次式)以及i个变数</span>
-<span class="token comment">// dp[i][j] = (dp[i - 1][j - 1](常数) + dp[i][j - 1])(变数，但是已经知道如何使用dp[i][i]表示)) / 2</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">int</span> N<span class="token punctuation">;</span>
-    cin <span class="token operator">>></span> N<span class="token punctuation">;</span>
-    dp<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> inv2<span class="token punctuation">;</span>
-        b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> i<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            a<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> a<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">*</span> inv2 <span class="token operator">%</span> MOD<span class="token punctuation">;</span>
-            b<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>b<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> inv2 <span class="token operator">%</span> MOD<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token comment">// dp[i][i] = a[i] * dp[i][i] + b[i]</span>
-        dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> b<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token function">inv</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">-</span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> MOD<span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> i<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">*</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> b<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token number">1ll</span><span class="token operator">*</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            vis<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">%</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                phi<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                phi<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">*</span><span class="token punctuation">(</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
         <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
-    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> N<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        cout <span class="token operator">&lt;&lt;</span> dp<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> N <span class="token operator">?</span> <span class="token char">' '</span> <span class="token operator">:</span> <span class="token char">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>N<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+=</span>phi<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span>
-
-<span class="token comment">/* 思考如何假设系数列出 dp[i][j] = a[j] * dp[i][i] + b[j] 的呢？这里我们发现使上面的dp
-方程存在有后效性的关键在于dp[i][i]所以我们想办法每次的2-N的循环中首先要想办法将dp[i][i]求出，
-然后再去求i情况下的所有dp式子。由于求dp[i][i]需要先求a[j],b[j]那么在这之前在先想办法求出求出a[j],b[j]的递推式。
-由于在求 dp[i][j] 的时候dp[i-1][j-1]是已经算出来的，所以我们只需要把dp[i][j-1]使用假设出来的关于dp[i][j]待定系数的式子,
-带入到dp[i][j]中求出dp[i][j]=a[j-1]/2*dp[i][i]+b[j-1]/2+dp[i-1][j-1]/2;对比可求出a[j],b[j]的递推式子。在将a[j],b[j]求出来以后由于
-dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，在利用dp[i][i]去求i时候的所有dp式子。
-以上是使用待定系数法来解决这类问题，当dp式复杂时我们还可以使用高斯消元法来求解。
-*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+ll <span class="token function">Sphi</span><span class="token punctuation">(</span>ll n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&lt;</span>N<span class="token punctuation">)</span> <span class="token keyword">return</span> phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">return</span> mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    ll ans<span class="token operator">=</span>n<span class="token operator">*</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span>ll l<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span>r<span class="token punctuation">;</span>l<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>l<span class="token operator">=</span>r<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        r<span class="token operator">=</span>n<span class="token operator">/</span><span class="token punctuation">(</span>n<span class="token operator">/</span>l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ans<span class="token operator">-=</span><span class="token function">Sphi</span><span class="token punctuation">(</span>n<span class="token operator">/</span>l<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>r<span class="token operator">-</span>l<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3>
                 
             </div>
             <hr/>
@@ -512,7 +540,7 @@ dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://xtley.github.io/2024/05/25/gai-lu-yu-qi-wang-dp/">https://xtley.github.io/2024/05/25/gai-lu-yu-qi-wang-dp/</a>
+                    <a href="https://xtley.github.io/2024/05/25/du-jiao-shai/">https://xtley.github.io/2024/05/25/du-jiao-shai/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -549,7 +577,11 @@ dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，�
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">
+                                    <span class="chip bg-color">算法竞赛</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -626,54 +658,18 @@ dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/05/25/jian-zhan-bi-ji/">
+                <a href="/2024/05/25/du-jiao-shai/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="建站笔记">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="杜教筛">
                         
-                        <span class="card-title">建站笔记</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-05-25
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            xtley
-                            
-                        </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2024/05/25/gai-lu-yu-qi-wang-dp/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="概率与期望dp">
-                        
-                        <span class="card-title">概率与期望dp</span>
+                        <span class="card-title">杜教筛</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -695,6 +691,51 @@ dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，�
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">
+                        <span class="chip bg-color">算法竞赛</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/05/25/hello-world/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        
+                        <span class="card-title">Hello World</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            xtley
+                            
+                        </span>
+                    </div>
+                </div>
                 
             </div>
         </div>
@@ -852,6 +893,13 @@ dp[i][i] = a[i] * dp[i][i] + b[i],这就已经可以把dp[i][i]求出来了，�
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
