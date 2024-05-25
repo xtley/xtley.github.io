@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta name="keywords" content="建站笔记, Hexo">
     <meta name="description" content="新建文章
-1hexo new &amp;quot;建站笔记&amp;quot;
+hexo new &amp;quot;建站笔记&amp;quot;
 上传到github (上传有延迟 一两分钟左右)
-1hexo g -d
-已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了">
+hexo g -d
+已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -404,15 +404,16 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>新建文章</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;建站笔记&quot;</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">hexo new &quot;建站笔记&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>上传到github (上传有延迟 一两分钟左右)</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">hexo g -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程仓库，所以不需要担心丢失。</p>
 <p>更换主题</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在博客文件目录下的theme中把要使的主题从clone下来，并且在到根目录下配置切换theme: 新主题名(与文件名一致)</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-none"><code class="language-none">在博客文件目录下的theme中把要使的主题从clone下来，并且在到根目录下配置切换theme: 新主题名(与文件名一致)<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>遇到报错</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote: error: GH013: Repository rule violations found for refs/heads/main.</span><br></pre></td></tr></table></figure>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">remote: error: GH013: Repository rule violations found <span class="token keyword">for</span> refs/heads/main.<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 <p>报错原因上传的文件中泄露了key,解决方法到报错中给出的网站去允许上传</p>
+<p>代码块的问题：不要使用 hexo g 直接使用 hexo clean和hexo server 或 hexo d</p>
 
                 
             </div>
@@ -1054,8 +1055,6 @@ $(function () {
     })();
 </script>
 
-    
-    <script src="/libs/others/clicklove.js" async="async"></script>
     
     
     <script async src="/libs/others/busuanzi.pure.mini.js"></script>
