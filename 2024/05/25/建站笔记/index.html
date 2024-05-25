@@ -407,6 +407,11 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
 
 <p>已经使用了hexo的插件进行远程推送，所以我们不需要在本地目录下面新建仓库的，最重要的文章本来就上传到了远程仓库，所以不需要担心丢失。</p>
+<p>更换主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在博客文件目录下的theme中把要使的主题从clone下来，并且在到根目录下配置切换theme: 新主题名(与文件名一致)</span><br></pre></td></tr></table></figure>
+<p>遇到报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">remote: error: GH013: Repository rule violations found for refs/heads/main.</span><br></pre></td></tr></table></figure>
+<p>报错原因上传的文件中泄露了key,解决方法到报错中给出的网站去允许上传</p>
 
                 
             </div>
