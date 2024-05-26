@@ -5,11 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="杜教筛, xt的博客">
-    <meta name="description" content="图片测试：
-迪利克雷卷积定义:$f(n),g(n)是两个积性函数$
-(f*g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)性质:
-1.交换律：$fg=gf$
-">
+    <meta name="description" content="迪利克雷卷积定义:$f(n),g(n)是两个积性函数$
+(f\otimes g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)性质:
+1.交换律：$f\otim">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -399,14 +397,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    881
+                    929
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -434,12 +432,11 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>图片测试：<br><img src="/2024/05/25/du-jiao-shai/test.png" alt="图片测试："></p>
-<h3 id="迪利克雷卷积"><a href="#迪利克雷卷积" class="headerlink" title="迪利克雷卷积"></a>迪利克雷卷积</h3><p>定义:$f(n),g(n)是两个积性函数$</p>
-<script type="math/tex; mode=display">(f*g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)</script><p>性质:</p>
-<p>1.交换律：$f<em>g=g</em>f$</p>
-<p>2.结合律：$(f<em>g)</em>h=f<em>(g</em>h)$</p>
-<p>3.分配律：$(f+g)<em>h=f</em>h=g*h$</p>
+                <h3 id="迪利克雷卷积"><a href="#迪利克雷卷积" class="headerlink" title="迪利克雷卷积"></a>迪利克雷卷积</h3><p>定义:$f(n),g(n)是两个积性函数$</p>
+<script type="math/tex; mode=display">(f\otimes g)(n)=\sum_{d|n}f(d)·g(\frac{n}{d})=\sum_{d|n}f(\frac{n}{d})·g(d)</script><p>性质:</p>
+<p>1.交换律：$f\otimes g=g\otimes f$</p>
+<p>2.结合律：$(f\otimes g)\otimes h=f\otimes (g\otimes h)$</p>
+<p>3.分配律：$(f+g)\otimes h=f\otimes h=g\otimes h$</p>
 <h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><p>1.元函数： $\xi(n)=[n=1]$</p>
 <p>2.常数函数：$1(n)=1$</p>
 <p>3.恒等函数：$id(n)=n$</p>
@@ -448,22 +445,23 @@
 <p>5.莫比乌斯函数：<br>$<br>\mu(n)=<br>\begin{cases}<br>1 \quad n=1\\<br>0 \quad n包含相同质因子\\<br>(-1)^s \quad n=p_1p_2…p_s \\<br>\end{cases}<br>$</p>
 <p>性质：$\sum_{d|n}\mu(d)=[n=1]$</p>
 <p>6.莫比乌斯函数与欧拉函数的联系：</p>
-<script type="math/tex; mode=display">\sum_{d|n}\mu(d)\frac{n}{d}=\varphi(n)</script><h3 id="常用卷积关系"><a href="#常用卷积关系" class="headerlink" title="常用卷积关系"></a>常用卷积关系</h3><p>1.$\sum_{d|n}\mu(d)=[n=1] \quad \Longleftrightarrow \quad u*1=\xi$</p>
-<p>2.$\sum_{d|n}\varphi(d)=n \quad \Longleftrightarrow \quad \varphi*1=id$</p>
-<p>3.$\sum_{d|n}\mu(d)·\frac{n}{d}=n \quad \Longleftrightarrow \quad u*id=\varphi$</p>
-<p>4.$f*\xi=f$</p>
-<p>5.$f*1\not=f$</p>
-<p>6.$f<em>u</em>1=f$</p>
-<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><p>$(\mu*1)(n)=\sum_{d|n}\mu(d)·1(\frac{n}{d})=\sum_{d|n}\mu(d)=[n=1]=\xi(n)$</p>
-<p>$(\varphi*1)(n)=\sum_{d|n}\varphi(d)·1(\frac{n}{d})=\sum_{d|n}\varphi(d)=[n=1]=id(n)$</p>
-<p>$(\mu*id)(n)=\sum_{d|n}\mu(d)·id(\frac{n}{d})=\sum_{d|n}\mu(d)·\frac{n}{d}=\varphi(n)$</p>
-<p>$(f*\xi)(n)=\sum_{d|n}f(d)·\xi(\frac{n}{d})=\sum_{d|n}f(d)·[\frac{n}{d}=1]=f(n)$</p>
-<p>$(f*1)(n)=\sum_{d|n}f(d)·1(\frac{n}{d})=\sum_{d|n}f(d)$</p>
-<p>$(f<em>u</em>1)(n)=(f<em>(u</em>1)(n))(n)=(f*\xi)(n)=f(n)$</p>
+<script type="math/tex; mode=display">\sum_{d|n}\mu(d)\frac{n}{d}=\varphi(n)</script><h3 id="常用卷积关系"><a href="#常用卷积关系" class="headerlink" title="常用卷积关系"></a>常用卷积关系</h3><p>1.$\sum_{d|n}\mu(d)=[n=1] \quad \Longleftrightarrow \quad u\otimes 1=\xi$</p>
+<p>2.$\sum_{d|n}\varphi(d)=n \quad \Longleftrightarrow \quad \varphi\otimes 1=id$</p>
+<p>3.$\sum_{d|n}\mu(d)·\frac{n}{d}=n \quad \Longleftrightarrow \quad u\otimes id=\varphi$</p>
+<p>4.$f\otimes \xi=f$</p>
+<p>5.$f\otimes 1\not=f$</p>
+<p>6.$f\otimes u\otimes 1=f$</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><p>$(\mu\otimes 1)(n)=\sum_{d|n}\mu(d)·1(\frac{n}{d})=\sum_{d|n}\mu(d)=[n=1]=\xi(n)$</p>
+<p>$(\varphi\otimes 1)(n)=\sum_{d|n}\varphi(d)·1(\frac{n}{d})=\sum_{d|n}\varphi(d)=[n=1]=id(n)$</p>
+<p>$(\mu\otimes id)(n)=\sum_{d|n}\mu(d)·id(\frac{n}{d})=\sum_{d|n}\mu(d)·\frac{n}{d}=\varphi(n)$</p>
+<p>$(f\otimes \xi)(n)=\sum_{d|n}f(d)·\xi(\frac{n}{d})=\sum_{d|n}f(d)·[\frac{n}{d}=1]=f(n)$</p>
+<p>$(f\otimes 1)(n)=\sum_{d|n}f(d)·1(\frac{n}{d})=\sum_{d|n}f(d)$</p>
+<p>$(f\otimes u\otimes 1)(n)=(f\otimes (u\otimes 1)(n))(n)=(f\otimes \xi)(n)=f(n)$</p>
 <h3 id="杜教筛原理"><a href="#杜教筛原理" class="headerlink" title="杜教筛原理"></a>杜教筛原理</h3><p>用途：在低于线性时间里，高效率求一些积性函数的前缀和</p>
 <p>原理：整除分块+迪利克雷卷积+线性筛</p>
-<p>公式:<script type="math/tex">g(1)S(n)=\sum_{i=1}^n{(f*g)(i)}-\sum_{i=2}^n{g(i)S(\lfloor{\frac {n}{i}\rfloor})}</script></p>
-<p>推导:$\sum_{i=1}^n(f*g)(i)$</p>
+<p>公式:</p>
+<script type="math/tex; mode=display">
+g(1)S(n)=\sum_{i=1}^n{(f\otimes g)(i)}-\sum_{i=2}^n{g(i)S(\lfloor{\frac {n}{i}\rfloor})}</script><p>推导:$\sum_{i=1}^n(f\otimes g)(i)$</p>
 <p>$=\sum_{i=1}^{n}\sum_{d|i}f(\frac{i}{d})g(d)=\sum_{i=1}^n\sum_{d=1}^n[d|i]f(\frac{i}{d})g(d)$</p>
 <p>$=\sum_{d=1}^{n}\sum_{i=1}^{n}[d|i]f(\frac{i}{d})g(d)=\sum_{d=1}^{n}\sum_{id=1}^n[d|id]f(\frac{id}{d})g(d)$</p>
 <p>$=\sum_{d=1}^{n}\sum_{i=1}^{\frac{n}{d}}f(i)g(d)=\sum_{d=1}^{n}g(d)S(\frac{n}{d})$<br>$=g(1)S(n)+\sum_{d=2}^{n}g(d)S(\frac{n}{d})$</p>
@@ -473,7 +471,7 @@
 <p>$3. \quad 使用整除分块做递归$</p>
 <p>时间复杂度：$O(n^\frac {2}{3})$</p>
 <h3 id="杜教筛模板"><a href="#杜教筛模板" class="headerlink" title="杜教筛模板"></a>杜教筛模板</h3><p>以该题为例:</p>
-<script type="math/tex; mode=display">求s(n)=\sum_{i=1}^{n}\varphi(i)</script><p>解:<br>因为<br>$\varphi<em>1=id,所以f=\varphi,g=1,f</em>g=id$</p>
+<script type="math/tex; mode=display">求s(n)=\sum_{i=1}^{n}\varphi(i)</script><p>解:<br>因为<br>$\varphi\otimes 1=id,所以f=\varphi,g=1,f\otimes g=id$</p>
 <p>$s(n)=\sum_{i=1}^{n}id(i)-\sum_{i=2}^{n}1(d)s(\frac{n}{i})$</p>
 <p>$=\sum_{i=1}^{n}i-\sum_{i=2}^{n}s({\frac{n}{i}})=\frac{n(n+1)}{2}-\sum_{i=1}^{n}s(\frac{n}{i})$</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">const</span> <span class="token keyword">int</span> N<span class="token operator">=</span><span class="token number">2e5</span><span class="token operator">+</span><span class="token number">10</span><span class="token punctuation">;</span>
@@ -491,14 +489,14 @@ map<span class="token operator">&lt;</span>ll<span class="token punctuation">,</
             pri<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
             phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">//处理n为素数时的函数取值</span>
         <span class="token punctuation">&#125;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token number">1ll</span><span class="token operator">*</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            vis<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token number">1ll</span>\otimes i\otimes pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">&lt;</span>N<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            vis<span class="token punctuation">[</span>i\otimes pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
             <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">%</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                phi<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+                phi<span class="token punctuation">[</span>i\otimes pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span>\otimes pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
                 <span class="token keyword">break</span><span class="token punctuation">;</span>
             <span class="token punctuation">&#125;</span>
             <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-                phi<span class="token punctuation">[</span>i<span class="token operator">*</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">*</span><span class="token punctuation">(</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                phi<span class="token punctuation">[</span>i\otimes pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span>phi<span class="token punctuation">[</span>i<span class="token punctuation">]</span>\<span class="token function">otimes</span> <span class="token punctuation">(</span>pri<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">&#125;</span>
         <span class="token punctuation">&#125;</span>
     <span class="token punctuation">&#125;</span>
@@ -507,10 +505,10 @@ map<span class="token operator">&lt;</span>ll<span class="token punctuation">,</
 ll <span class="token function">Sphi</span><span class="token punctuation">(</span>ll n<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">&lt;</span>N<span class="token punctuation">)</span> <span class="token keyword">return</span> phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
     <span class="token keyword">if</span><span class="token punctuation">(</span>mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">return</span> mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token punctuation">;</span>
-    ll ans<span class="token operator">=</span>n<span class="token operator">*</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
+    ll ans<span class="token operator">=</span>n\<span class="token function">otimes</span> <span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">/</span><span class="token number">2</span><span class="token punctuation">;</span>
     <span class="token keyword">for</span><span class="token punctuation">(</span>ll l<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span>r<span class="token punctuation">;</span>l<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>l<span class="token operator">=</span>r<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
         r<span class="token operator">=</span>n<span class="token operator">/</span><span class="token punctuation">(</span>n<span class="token operator">/</span>l<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        ans<span class="token operator">-=</span><span class="token function">Sphi</span><span class="token punctuation">(</span>n<span class="token operator">/</span>l<span class="token punctuation">)</span><span class="token operator">*</span><span class="token punctuation">(</span>r<span class="token operator">-</span>l<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ans<span class="token operator">-=</span><span class="token function">Sphi</span><span class="token punctuation">(</span>n<span class="token operator">/</span>l<span class="token punctuation">)</span>\<span class="token function">otimes</span> <span class="token punctuation">(</span>r<span class="token operator">-</span>l<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">&#125;</span>
     <span class="token keyword">return</span> mp_phi<span class="token punctuation">[</span>n<span class="token punctuation">]</span><span class="token operator">=</span>ans<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
@@ -974,7 +972,7 @@ ll <span class="token function">Sphi</span><span class="token punctuation">(</sp
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">2.3k</span>
+                        class="white-color">2.5k</span>
             
             
             
