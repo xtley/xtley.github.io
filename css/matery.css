@@ -17,7 +17,7 @@
 @media only screen and (min-width: 993px) {
     .container {
         width: 90%;
-        max-width: 1125px;
+        max-width: 1125px;  
     }
 
     .head-container {
@@ -241,7 +241,7 @@ mark {
 }
 
 .bg-color {
-    background-image: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background-image: linear-gradient(to right, #af801a 0%, #af801a 100%);
 }
 
 .text-color {
@@ -257,7 +257,7 @@ mark {
     position: fixed;
     bottom: 0;
     z-index: 300;
-    background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%);
+    background: linear-gradient(to right, #ffbd2e 0%, #ffbd2e 100%);
     opacity: 0.8;
 }
 
