@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>蓝桥杯-钟表</title>
+      <link href="/2024/05/28/lan-qiao-bei-zhong-biao/"/>
+      <url>/2024/05/28/lan-qiao-bei-zhong-biao/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p><a href="https://blog.csdn.net/waitingforone/article/details/138577508">题解</a></p><p>非常sb的题意<br><pre class="line-numbers language-none"><code class="language-none">#include &lt;bits&#x2F;stdc++.h&gt;using namespace std;int main() &#123;for(double s&#x3D;0;s&lt;&#x3D;6;s++) &#123;for(double f&#x3D;0;f&lt;60;f++) &#123;for(double m&#x3D;0;m&lt;60;m++) &#123;if(s&#x3D;&#x3D;0&amp;&amp;f&#x3D;&#x3D;0&amp;&amp;m&#x3D;&#x3D;0) continue;double hour&#x3D;s&#x2F;12+f&#x2F;60&#x2F;12+m&#x2F;60&#x2F;60&#x2F;12;double minute&#x3D;f&#x2F;60+m&#x2F;60&#x2F;60;double seconds&#x3D;m&#x2F;60;double A&#x3D;fabs(hour-minute);double B&#x3D;fabs(minute-seconds);A&#x3D;fmin(A,1-A);B&#x3D;fmin(B,1-B);if(fabs(A-2*B)&lt;&#x3D;1e-10)&#123;cout&lt;&lt;s&lt;&lt;&quot; &quot;&lt;&lt;f&lt;&lt;&quot; &quot;&lt;&lt;m&lt;&lt;endl;&#125;&#125;&#125;&#125;return 0;&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 蓝桥杯 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>数三角</title>
       <link href="/2024/05/27/shu-san-jiao/"/>
       <url>/2024/05/27/shu-san-jiao/</url>
