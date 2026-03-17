@@ -1184,25 +1184,41 @@ using namespace std;
 
     
 </style>
-<!-- 音乐播放器：想加歌就复制一个 meting-js 标签，改 id 为网易云歌曲ID -->
-<meting-js
-    server="netease"
-    type="song"
-    id="3336468531"
-    fixed="true"
-    autoplay="true"
-    theme="#42b983"
-    loop="all"
-    order="random"
-    preload="auto"
-    volume="0.7"
-    list-folded="true"
->
-</meting-js>
-
+<!-- 音乐播放器：本地音频文件放在 /medias/music/ 目录下 -->
+<div id="aplayer-container"></div>
 <script src="/libs/aplayer/APlayer.min.js"></script>
-<script>var meting_api='https://api.injahow.cn/meting/?server=:server&type=:type&id=:id&r=:r';</script>
-<script src="/libs/aplayer/Meting.min.js"></script>
+<script>
+/*
+ * 歌曲列表配置
+ * 添加歌曲步骤：
+ * 1. 把 mp3/flac 文件放到 medias/music/ 目录
+ * 2. （可选）把封面图放到 medias/music/ 目录
+ * 3. 在下面数组中添加一条记录
+ */
+var musicList = [
+    // {
+    //     name: '歌曲名',
+    //     artist: '歌手',
+    //     url: '/medias/music/文件名.mp3',
+    //     cover: '/medias/music/封面.jpg'
+    // },
+];
+
+if (musicList.length > 0) {
+    new APlayer({
+        container: document.getElementById('aplayer-container'),
+        fixed: true,
+        autoplay: false,
+        theme: '#42b983',
+        loop: 'all',
+        order: 'list',
+        preload: 'auto',
+        volume: 0.7,
+        listFolded: true,
+        audio: musicList
+    });
+}
+</script>
 
     
 
