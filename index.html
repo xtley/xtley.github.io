@@ -1184,50 +1184,24 @@ using namespace std;
 
     
 </style>
-<div id="aplayer-container"></div>
+<!-- 音乐播放器：想加歌就复制一个 meting-js 标签，改 id 为网易云歌曲ID -->
+<meting-js
+    server="netease"
+    type="song"
+    id="3336468531"
+    fixed="true"
+    autoplay="true"
+    theme="#42b983"
+    loop="all"
+    order="random"
+    preload="auto"
+    volume="0.7"
+    list-folded="true"
+>
+</meting-js>
 
 <script src="/libs/aplayer/APlayer.min.js"></script>
 <script src="/libs/aplayer/Meting.min.js"></script>
-<script>
-// 在这里添加网易云歌曲ID，想加歌直接往数组里加ID即可
-var songIds = [
-    3336468531, // 咏春（别辜负眼前季节）- 银翼杀手
-];
-
-var metingApi = "https://api.i-meto.com/meting/api?server=netease&type=song&id=";
-
-Promise.all(songIds.map(function(id) {
-    return fetch(metingApi + id).then(function(r) { return r.json(); });
-})).then(function(results) {
-    var audioList = [];
-    results.forEach(function(songs) {
-        if (songs && songs.length > 0) {
-            var s = songs[0];
-            audioList.push({
-                name: s.title || s.name,
-                artist: s.author || s.artist,
-                url: s.url,
-                cover: s.pic || s.cover,
-                lrc: s.lrc
-            });
-        }
-    });
-    if (audioList.length > 0) {
-        new APlayer({
-            container: document.getElementById("aplayer-container"),
-            fixed: true,
-            autoplay: true,
-            theme: "#42b983",
-            loop: "all",
-            order: "random",
-            preload: "auto",
-            volume: 0.7,
-            listFolded: true,
-            audio: audioList
-        });
-    }
-});
-</script>
 
     
 
