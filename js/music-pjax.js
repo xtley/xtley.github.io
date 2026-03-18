@@ -85,20 +85,64 @@
         });
 
         // 恢复上次播放状态
-        if (savedState && savedState.songIndex < musicList.length) {
+        if (savedState) {
             var ap = window._aplayer;
-            // 切换到上次播放的歌曲
-            ap.list.switch(savedState.songIndex);
-            // 等音频加载后跳转到上次的进度
-            ap.on('canplay', function onCanPlay() {
-                ap.off('canplay', onCanPlay);
-                if (savedState.currentTime > 0) {
-                    ap.seek(savedState.currentTime);
+            var needSeek = savedState.currentTime > 0;
+            var needPlay = savedState.wasPlaying;
+            var seekDone = false;
+
+            function doSeekAndPlay() {
+                if (seekDone) return;
+                seekDone = true;
+                if (needSeek) {
+                    try { ap.seek(savedState.currentTime); } catch (e) {}
                 }
-                if (savedState.wasPlaying) {
-                    ap.play();
+                if (needPlay) {
+                    try {
+                        var p = ap.play();
+                        if (p && p.catch) {
+                            p.catch(function () {
+                                // autoplay 被浏览器阻止，等用户第一次点击页面后恢复
+                                waitForUserClick();
+                            });
+                        }
+                    } catch (e) {
+                        waitForUserClick();
+                    }
                 }
-            });
+            }
+
+            function waitForUserClick() {
+                function resumeOnClick() {
+                    document.removeEventListener('click', resumeOnClick, true);
+                    document.removeEventListener('touchstart', resumeOnClick, true);
+                    if (ap.audio.paused && needPlay) {
+                        try { ap.play(); } catch (e) {}
+                    }
+                }
+                document.addEventListener('click', resumeOnClick, true);
+                document.addEventListener('touchstart', resumeOnClick, true);
+            }
+
+            // 切换到上次的歌曲
+            if (savedState.songIndex > 0 && savedState.songIndex < musicList.length) {
+                ap.list.switch(savedState.songIndex);
+            }
+
+            // 监听原生 audio 元素的 canplay 事件
+            var audio = ap.audio;
+            if (audio.readyState >= 3) {
+                doSeekAndPlay();
+            } else {
+                audio.addEventListener('canplay', function onReady() {
+                    audio.removeEventListener('canplay', onReady);
+                    doSeekAndPlay();
+                });
+                // 兜底：2秒后强制尝试
+                setTimeout(function () {
+                    doSeekAndPlay();
+                }, 2000);
+            }
         }
 
         // 页面关闭或刷新前保存状态
