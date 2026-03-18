@@ -1,10 +1,10 @@
 /**
  * 音乐播放器 + PJAX 无刷新切换
  * 功能：页面切换时音乐不中断，刷新后自动恢复播放进度
+ * v2 - 重写状态恢复逻辑
  */
 (function () {
     // ========== 歌曲列表配置 ==========
-    // 添加歌曲：在数组中添加一条记录即可
     var musicList = [
         {
             name: '别辜负眼前季节',
@@ -12,72 +12,52 @@
             url: '/medias/music/yongchun_dj.m4a',
             cover: '/medias/music/yongchun_dj.jpg'
         },
-        // 添加更多歌曲示例：
-        // {
-        //     name: '歌曲名',
-        //     artist: '歌手',
-        //     url: '/medias/music/文件名.mp3',
-        //     cover: '/medias/music/封面.jpg'
-        // },
     ];
     // ==================================
 
-    var STORAGE_KEY = 'aplayer_state';
-    var _userIsPlaying = false; // 通过事件跟踪真实播放状态
+    var SK = 'aplayer_state';
+    var _playing = false;
+    var _unloading = false;
 
-    // 定期保存（记录完整状态）
-    function saveState() {
+    // ---- 状态持久化 ----
+    function save() {
         if (!window._aplayer) return;
         try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                songIndex: window._aplayer.list.index,
-                currentTime: window._aplayer.audio.currentTime,
-                wasPlaying: _userIsPlaying,
-                volume: window._aplayer.audio.volume,
-                ts: Date.now()
+            localStorage.setItem(SK, JSON.stringify({
+                i: window._aplayer.list.index,
+                t: window._aplayer.audio.currentTime,
+                p: _playing,
+                v: window._aplayer.audio.volume
             }));
         } catch (e) {}
     }
 
-    // beforeunload 专用：只更新进度，不覆盖 wasPlaying
-    function saveStateOnUnload() {
+    function saveOnUnload() {
         if (!window._aplayer) return;
         try {
-            var raw = localStorage.getItem(STORAGE_KEY);
-            var prev = raw ? JSON.parse(raw) : {};
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({
-                songIndex: window._aplayer.list.index,
-                currentTime: window._aplayer.audio.currentTime,
-                wasPlaying: prev.wasPlaying || false, // 保留定期保存的值
-                volume: window._aplayer.audio.volume,
-                ts: Date.now()
-            }));
+            var raw = localStorage.getItem(SK);
+            var old = raw ? JSON.parse(raw) : {};
+            // 只更新进度，保留 playing 状态（浏览器 unload 时会暂停音频）
+            old.t = window._aplayer.audio.currentTime;
+            old.i = window._aplayer.list.index;
+            localStorage.setItem(SK, JSON.stringify(old));
         } catch (e) {}
     }
 
-    // 从 localStorage 恢复播放状态
-    function restoreState() {
+    function load() {
         try {
-            var raw = localStorage.getItem(STORAGE_KEY);
+            var raw = localStorage.getItem(SK);
             if (!raw) return null;
-            var state = JSON.parse(raw);
-            // 状态超过 24 小时则忽略
-            if (Date.now() - state.ts > 86400000) {
-                localStorage.removeItem(STORAGE_KEY);
-                return null;
-            }
-            return state;
-        } catch (e) {
-            return null;
-        }
+            var s = JSON.parse(raw);
+            return s;
+        } catch (e) { return null; }
     }
 
-    // 初始化音乐播放器（全局只初始化一次）
+    // ---- 播放器初始化 ----
     function initMusicPlayer() {
-        if (window._aplayer) return; // 已经初始化过，不重复创建
+        if (window._aplayer) return;
         if (musicList.length === 0) return;
 
-        // 创建播放器容器（如果不存在）
         var container = document.getElementById('aplayer-container');
         if (!container) {
             container = document.createElement('div');
@@ -85,7 +65,7 @@
             document.body.appendChild(container);
         }
 
-        var savedState = restoreState();
+        var saved = load();
 
         window._aplayer = new APlayer({
             container: container,
@@ -95,100 +75,93 @@
             loop: 'all',
             order: 'list',
             preload: 'auto',
-            volume: savedState ? savedState.volume : 0.7,
+            volume: (saved && saved.v != null) ? saved.v : 0.7,
             listFolded: true,
             audio: musicList
         });
 
-        // 恢复上次播放状态
-        if (savedState) {
-            var ap = window._aplayer;
-            var needSeek = savedState.currentTime > 0;
-            var needPlay = savedState.wasPlaying;
-            var seekDone = false;
-            var clickBound = false;
+        var ap = window._aplayer;
 
-            function doSeekAndPlay() {
-                if (seekDone) return;
-                seekDone = true;
-                if (needSeek) {
-                    try { ap.seek(savedState.currentTime); } catch (e) {}
+        // 跟踪播放状态
+        ap.on('play', function () {
+            _playing = true;
+            save();
+        });
+        ap.on('pause', function () {
+            if (!_unloading) {
+                _playing = false;
+                save();
+            }
+        });
+
+        // 定期保存进度
+        setInterval(function () {
+            if (!_unloading) save();
+        }, 2000);
+
+        // unload 只更新进度
+        window.addEventListener('beforeunload', function () {
+            _unloading = true;
+            saveOnUnload();
+        });
+
+        // ---- 恢复播放 ----
+        if (saved && saved.p) {
+            // 切歌
+            if (saved.i > 0 && saved.i < musicList.length) {
+                ap.list.switch(saved.i);
+            }
+
+            var restored = false;
+            function doRestore() {
+                if (restored) return;
+                restored = true;
+                // 跳转进度
+                if (saved.t > 0) {
+                    try { ap.seek(saved.t); } catch (e) {}
                 }
-                if (needPlay) {
-                    // 用原生 audio.play() 获取 Promise（APlayer 的 play() 不返回 Promise）
-                    try {
-                        var p = ap.audio.play();
-                        if (p && p.then) {
-                            p.then(function () {
-                                // 自动播放成功，清除点击监听
-                                removeClickListener();
-                            }).catch(function () {
-                                // autoplay 被阻止，依赖点击监听恢复
-                            });
+                // 尝试播放
+                ap.play();
+                // 500ms 后检查是否成功
+                setTimeout(function () {
+                    if (ap.audio.paused) {
+                        // 被浏览器阻止了，等用户任意交互
+                        bindClick();
+                    }
+                }, 500);
+            }
+
+            function bindClick() {
+                function handler() {
+                    document.removeEventListener('click', handler, true);
+                    document.removeEventListener('touchstart', handler, true);
+                    document.removeEventListener('keydown', handler, true);
+                    if (ap.audio.paused) {
+                        if (saved.t > 0) {
+                            try { ap.seek(saved.t); } catch (e) {}
                         }
-                    } catch (e) {}
-                    // 始终设置点击监听作为兜底
-                    setupClickListener();
+                        ap.play();
+                    }
                 }
+                document.addEventListener('click', handler, true);
+                document.addEventListener('touchstart', handler, true);
+                document.addEventListener('keydown', handler, true);
             }
 
-            function onUserClick() {
-                removeClickListener();
-                if (ap.audio.paused) {
-                    try { ap.audio.play(); } catch (e) {}
-                }
-            }
-
-            function setupClickListener() {
-                if (clickBound) return;
-                clickBound = true;
-                document.addEventListener('click', onUserClick, true);
-                document.addEventListener('touchstart', onUserClick, true);
-            }
-
-            function removeClickListener() {
-                if (!clickBound) return;
-                clickBound = false;
-                document.removeEventListener('click', onUserClick, true);
-                document.removeEventListener('touchstart', onUserClick, true);
-            }
-
-            // 切换到上次的歌曲
-            if (savedState.songIndex > 0 && savedState.songIndex < musicList.length) {
-                ap.list.switch(savedState.songIndex);
-            }
-
-            // 监听原生 audio 元素的 canplay 事件
-            var nativeAudio = ap.audio;
-            if (nativeAudio.readyState >= 3) {
-                doSeekAndPlay();
+            // 等音频就绪
+            if (ap.audio.readyState >= 2) {
+                doRestore();
             } else {
-                nativeAudio.addEventListener('canplay', function onReady() {
-                    nativeAudio.removeEventListener('canplay', onReady);
-                    doSeekAndPlay();
+                ap.audio.addEventListener('canplay', function h() {
+                    ap.audio.removeEventListener('canplay', h);
+                    doRestore();
                 });
-                // 兜底：2秒后强制尝试
-                setTimeout(doSeekAndPlay, 2000);
+                setTimeout(doRestore, 3000);
             }
         }
-
-        // 通过 APlayer 事件跟踪真实播放状态
-        window._aplayer.on('play', function () { _userIsPlaying = true; });
-        window._aplayer.on('pause', function () {
-            if (!window._isUnloading) _userIsPlaying = false;
-        });
-
-        // 页面关闭或刷新前：只更新进度，不覆盖 wasPlaying
-        window.addEventListener('beforeunload', function () {
-            window._isUnloading = true;
-            saveStateOnUnload();
-        });
-
-        // 定期保存完整状态（包括正确的 wasPlaying）
-        setInterval(saveState, 2000);
     }
 
-    // 初始化 PJAX
+    // ---- PJAX ----
     function initPjax() {
         if (!window.Pjax) return;
 
@@ -199,55 +172,36 @@
             cacheBust: false
         });
 
-        // PJAX 开始前记录播放状态
         document.addEventListener('pjax:send', function () {
             if (window._aplayer && !window._aplayer.audio.paused) {
                 wasPlaying = true;
             }
         });
 
-        // PJAX 切换完成后，恢复播放状态并重新初始化页面脚本
         document.addEventListener('pjax:complete', function () {
-            // 恢复音乐播放
             if (wasPlaying && window._aplayer) {
                 window._aplayer.play();
                 wasPlaying = false;
             }
-            // 重新初始化 Materialize 组件
             if (window.M) {
                 var elems = document.querySelectorAll('.sidenav');
                 if (elems.length) M.Sidenav.init(elems);
                 var tooltips = document.querySelectorAll('.tooltipped');
                 if (tooltips.length) M.Tooltip.init(tooltips);
             }
-
-            // 重新初始化代码高亮
             if (window.Prism) Prism.highlightAll();
-
-            // 重新初始化图片灯箱
             if (window.lightGallery) {
-                var galleries = document.querySelectorAll('.article-content');
-                galleries.forEach(function (el) {
+                document.querySelectorAll('.article-content').forEach(function (el) {
                     try { lightGallery(el, { selector: 'img' }); } catch (e) {}
                 });
             }
-
-            // 重新初始化 TOC
-            if (window.tocbot) {
-                try { tocbot.refresh(); } catch (e) {}
-            }
-
-            // 触发页面滚动事件（让 AOS 等动画库重新工作）
+            if (window.tocbot) { try { tocbot.refresh(); } catch (e) {} }
             window.dispatchEvent(new Event('scroll'));
-
-            // MathJax 重新渲染
-            if (window.MathJax) {
-                try { MathJax.typeset(); } catch (e) {}
-            }
+            if (window.MathJax) { try { MathJax.typeset(); } catch (e) {} }
         });
     }
 
-    // 页面加载完成后初始化
+    // ---- 启动 ----
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             initMusicPlayer();

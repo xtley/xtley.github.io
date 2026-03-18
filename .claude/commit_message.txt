@@ -1,0 +1,6 @@
+docs: 更新配置指南，反映 music-pjax.js 新架构
+
+- musicList 配置位置改为 js/music-pjax.js
+- B站下载脚本改为写入 js/music-pjax.js
+- 新增 PJAX 无刷新切换功能说明
+- 更新文件结构说明
