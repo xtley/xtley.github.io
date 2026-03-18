@@ -1,10 +1,8 @@
 /**
  * 音乐播放器 + PJAX 无刷新切换
- * 功能：页面切换时音乐不中断，刷新后自动恢复播放进度
- * v2 - 重写状态恢复逻辑
+ * v3 - autoplay 恢复
  */
 (function () {
-    // ========== 歌曲列表配置 ==========
     var musicList = [
         {
             name: '别辜负眼前季节',
@@ -13,13 +11,11 @@
             cover: '/medias/music/yongchun_dj.jpg'
         },
     ];
-    // ==================================
 
     var SK = 'aplayer_state';
     var _playing = false;
     var _unloading = false;
 
-    // ---- 状态持久化 ----
     function save() {
         if (!window._aplayer) return;
         try {
@@ -32,31 +28,15 @@
         } catch (e) {}
     }
 
-    function saveOnUnload() {
-        if (!window._aplayer) return;
-        try {
-            var raw = localStorage.getItem(SK);
-            var old = raw ? JSON.parse(raw) : {};
-            // 只更新进度，保留 playing 状态（浏览器 unload 时会暂停音频）
-            old.t = window._aplayer.audio.currentTime;
-            old.i = window._aplayer.list.index;
-            localStorage.setItem(SK, JSON.stringify(old));
-        } catch (e) {}
-    }
-
     function load() {
         try {
             var raw = localStorage.getItem(SK);
-            if (!raw) return null;
-            var s = JSON.parse(raw);
-            return s;
+            return raw ? JSON.parse(raw) : null;
         } catch (e) { return null; }
     }
 
-    // ---- 播放器初始化 ----
     function initMusicPlayer() {
-        if (window._aplayer) return;
-        if (musicList.length === 0) return;
+        if (window._aplayer || musicList.length === 0) return;
 
         var container = document.getElementById('aplayer-container');
         if (!container) {
@@ -66,11 +46,13 @@
         }
 
         var saved = load();
+        var shouldPlay = saved && saved.p;
 
+        // 如果之前在播放，直接用 autoplay:true 创建
         window._aplayer = new APlayer({
             container: container,
             fixed: true,
-            autoplay: false,
+            autoplay: shouldPlay,
             theme: '#42b983',
             loop: 'all',
             order: 'list',
@@ -83,111 +65,92 @@
         var ap = window._aplayer;
 
         // 跟踪播放状态
-        ap.on('play', function () {
-            _playing = true;
-            save();
-        });
+        ap.on('play', function () { _playing = true; save(); });
         ap.on('pause', function () {
-            if (!_unloading) {
-                _playing = false;
-                save();
-            }
+            if (!_unloading) { _playing = false; save(); }
         });
 
         // 定期保存进度
-        setInterval(function () {
-            if (!_unloading) save();
-        }, 2000);
+        setInterval(function () { if (!_unloading) save(); }, 2000);
 
-        // unload 只更新进度
+        // unload 时只更新进度，不改 playing 状态
         window.addEventListener('beforeunload', function () {
             _unloading = true;
-            saveOnUnload();
+            if (!window._aplayer) return;
+            try {
+                var raw = localStorage.getItem(SK);
+                var old = raw ? JSON.parse(raw) : {};
+                old.t = ap.audio.currentTime;
+                old.i = ap.list.index;
+                localStorage.setItem(SK, JSON.stringify(old));
+            } catch (e) {}
         });
 
-        // ---- 恢复播放 ----
-        if (saved && saved.p) {
-            // 切歌
+        // 恢复进度
+        if (saved) {
             if (saved.i > 0 && saved.i < musicList.length) {
                 ap.list.switch(saved.i);
             }
-
-            var restored = false;
-            function doRestore() {
-                if (restored) return;
-                restored = true;
-                // 跳转进度
-                if (saved.t > 0) {
+            if (saved.t > 0) {
+                // 等音频就绪后 seek
+                function doSeek() {
                     try { ap.seek(saved.t); } catch (e) {}
                 }
-                // 尝试播放
-                ap.play();
-                // 500ms 后检查是否成功
+                if (ap.audio.readyState >= 2) {
+                    doSeek();
+                } else {
+                    ap.audio.addEventListener('canplay', function h() {
+                        ap.audio.removeEventListener('canplay', h);
+                        doSeek();
+                    });
+                    setTimeout(doSeek, 3000);
+                }
+            }
+
+            // 如果 autoplay 被浏览器阻止，绑定用户交互恢复
+            if (shouldPlay) {
                 setTimeout(function () {
                     if (ap.audio.paused) {
-                        // 被浏览器阻止了，等用户任意交互
-                        bindClick();
-                    }
-                }, 500);
-            }
-
-            function bindClick() {
-                function handler() {
-                    document.removeEventListener('click', handler, true);
-                    document.removeEventListener('touchstart', handler, true);
-                    document.removeEventListener('keydown', handler, true);
-                    if (ap.audio.paused) {
-                        if (saved.t > 0) {
-                            try { ap.seek(saved.t); } catch (e) {}
+                        // autoplay 被阻止了
+                        var events = ['mousedown', 'touchstart', 'keydown'];
+                        function resume() {
+                            events.forEach(function (e) {
+                                document.removeEventListener(e, resume, true);
+                            });
+                            if (ap.audio.paused) {
+                                if (saved.t > 0) {
+                                    try { ap.seek(saved.t); } catch (e) {}
+                                }
+                                ap.play();
+                            }
                         }
-                        ap.play();
+                        events.forEach(function (e) {
+                            document.addEventListener(e, resume, true);
+                        });
                     }
-                }
-                document.addEventListener('click', handler, true);
-                document.addEventListener('touchstart', handler, true);
-                document.addEventListener('keydown', handler, true);
-            }
-
-            // 等音频就绪
-            if (ap.audio.readyState >= 2) {
-                doRestore();
-            } else {
-                ap.audio.addEventListener('canplay', function h() {
-                    ap.audio.removeEventListener('canplay', h);
-                    doRestore();
-                });
-                setTimeout(doRestore, 3000);
+                }, 1000);
             }
         }
     }
 
-    // ---- PJAX ----
     function initPjax() {
         if (!window.Pjax) return;
-
         var wasPlaying = false;
-
-        new Pjax({
-            selectors: ['title', 'main.content'],
-            cacheBust: false
-        });
+        new Pjax({ selectors: ['title', 'main.content'], cacheBust: false });
 
         document.addEventListener('pjax:send', function () {
-            if (window._aplayer && !window._aplayer.audio.paused) {
-                wasPlaying = true;
-            }
+            if (window._aplayer && !window._aplayer.audio.paused) wasPlaying = true;
         });
-
         document.addEventListener('pjax:complete', function () {
             if (wasPlaying && window._aplayer) {
                 window._aplayer.play();
                 wasPlaying = false;
             }
             if (window.M) {
-                var elems = document.querySelectorAll('.sidenav');
-                if (elems.length) M.Sidenav.init(elems);
-                var tooltips = document.querySelectorAll('.tooltipped');
-                if (tooltips.length) M.Tooltip.init(tooltips);
+                var e = document.querySelectorAll('.sidenav');
+                if (e.length) M.Sidenav.init(e);
+                var t = document.querySelectorAll('.tooltipped');
+                if (t.length) M.Tooltip.init(t);
             }
             if (window.Prism) Prism.highlightAll();
             if (window.lightGallery) {
@@ -201,7 +164,6 @@
         });
     }
 
-    // ---- 启动 ----
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', function () {
             initMusicPlayer();
