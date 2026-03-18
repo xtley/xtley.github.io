@@ -53,13 +53,27 @@
     function initPjax() {
         if (!window.Pjax) return;
 
+        var wasPlaying = false;
+
         new Pjax({
             selectors: ['title', 'main.content'],
             cacheBust: false
         });
 
-        // PJAX 切换完成后，重新初始化页面特定的脚本
+        // PJAX 开始前记录播放状态
+        document.addEventListener('pjax:send', function () {
+            if (window._aplayer && !window._aplayer.audio.paused) {
+                wasPlaying = true;
+            }
+        });
+
+        // PJAX 切换完成后，恢复播放状态并重新初始化页面脚本
         document.addEventListener('pjax:complete', function () {
+            // 恢复音乐播放
+            if (wasPlaying && window._aplayer) {
+                window._aplayer.play();
+                wasPlaying = false;
+            }
             // 重新初始化 Materialize 组件
             if (window.M) {
                 var elems = document.querySelectorAll('.sidenav');
