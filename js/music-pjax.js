@@ -90,6 +90,7 @@
             var needSeek = savedState.currentTime > 0;
             var needPlay = savedState.wasPlaying;
             var seekDone = false;
+            var clickBound = false;
 
             function doSeekAndPlay() {
                 if (seekDone) return;
@@ -98,30 +99,42 @@
                     try { ap.seek(savedState.currentTime); } catch (e) {}
                 }
                 if (needPlay) {
+                    // 用原生 audio.play() 获取 Promise（APlayer 的 play() 不返回 Promise）
                     try {
-                        var p = ap.play();
-                        if (p && p.catch) {
-                            p.catch(function () {
-                                // autoplay 被浏览器阻止，等用户第一次点击页面后恢复
-                                waitForUserClick();
+                        var p = ap.audio.play();
+                        if (p && p.then) {
+                            p.then(function () {
+                                // 自动播放成功，清除点击监听
+                                removeClickListener();
+                            }).catch(function () {
+                                // autoplay 被阻止，依赖点击监听恢复
                             });
                         }
-                    } catch (e) {
-                        waitForUserClick();
-                    }
+                    } catch (e) {}
+                    // 始终设置点击监听作为兜底
+                    setupClickListener();
                 }
             }
 
-            function waitForUserClick() {
-                function resumeOnClick() {
-                    document.removeEventListener('click', resumeOnClick, true);
-                    document.removeEventListener('touchstart', resumeOnClick, true);
-                    if (ap.audio.paused && needPlay) {
-                        try { ap.play(); } catch (e) {}
-                    }
+            function onUserClick() {
+                removeClickListener();
+                if (ap.audio.paused) {
+                    try { ap.audio.play(); } catch (e) {}
                 }
-                document.addEventListener('click', resumeOnClick, true);
-                document.addEventListener('touchstart', resumeOnClick, true);
+            }
+
+            function setupClickListener() {
+                if (clickBound) return;
+                clickBound = true;
+                document.addEventListener('click', onUserClick, true);
+                document.addEventListener('touchstart', onUserClick, true);
+            }
+
+            function removeClickListener() {
+                if (!clickBound) return;
+                clickBound = false;
+                document.removeEventListener('click', onUserClick, true);
+                document.removeEventListener('touchstart', onUserClick, true);
             }
 
             // 切换到上次的歌曲
@@ -130,18 +143,16 @@
             }
 
             // 监听原生 audio 元素的 canplay 事件
-            var audio = ap.audio;
-            if (audio.readyState >= 3) {
+            var nativeAudio = ap.audio;
+            if (nativeAudio.readyState >= 3) {
                 doSeekAndPlay();
             } else {
-                audio.addEventListener('canplay', function onReady() {
-                    audio.removeEventListener('canplay', onReady);
+                nativeAudio.addEventListener('canplay', function onReady() {
+                    nativeAudio.removeEventListener('canplay', onReady);
                     doSeekAndPlay();
                 });
                 // 兜底：2秒后强制尝试
-                setTimeout(function () {
-                    doSeekAndPlay();
-                }, 2000);
+                setTimeout(doSeekAndPlay, 2000);
             }
         }
 
