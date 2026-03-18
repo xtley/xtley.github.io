@@ -1184,52 +1184,8 @@ using namespace std;
 
     
 </style>
-<!-- 音乐播放器：本地音频文件放在 /medias/music/ 目录下 -->
-<div id="aplayer-container"></div>
 <script src="/libs/aplayer/APlayer.min.js"></script>
-<script>
-/*
- * 歌曲列表配置
- * 添加歌曲步骤：
- * 1. 把 mp3/flac 文件放到 medias/music/ 目录
- * 2. （可选）把封面图放到 medias/music/ 目录
- * 3. 在下面数组中添加一条记录
- */
-var musicList = [
-    {
-        name: '别辜负眼前季节',
-        artist: '七朵组合',
-        url: '/medias/music/yongchun_dj.m4a',
-        cover: '/medias/music/yongchun_dj.jpg'
-    },
-    // 添加更多歌曲示例：
-    // {
-    //     name: '歌曲名',
-    //     artist: '歌手',
-    //     url: '/medias/music/文件名.mp3',
-    //     cover: '/medias/music/封面.jpg'
-    // },
-];
-
-if (musicList.length > 0) {
-    new APlayer({
-        container: document.getElementById('aplayer-container'),
-        fixed: true,
-        autoplay: false,
-        theme: '#42b983',
-        loop: 'all',
-        order: 'list',
-        preload: 'auto',
-        volume: 0.7,
-        listFolded: true,
-        audio: musicList
-    });
-}
-</script>
-
-    
-
-    <div class="container row center-align"
+<div class="container row center-align"
          style="margin-bottom: 0px !important;">
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
@@ -1506,6 +1462,8 @@ $(function () {
     <script src="/libs/instantpage/instantpage.js" type="module"></script>
     
 
+<script src="/libs/theme-next-pjax/pjax.min.js"></script>
+<script src="/js/music-pjax.js"></script>
 </body>
 
 </html>
