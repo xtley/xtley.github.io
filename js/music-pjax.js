@@ -1,6 +1,6 @@
 /**
  * 音乐播放器 + PJAX 无刷新切换
- * 功能：页面切换时音乐不中断
+ * 功能：页面切换时音乐不中断，刷新后自动恢复播放进度
  */
 (function () {
     // ========== 歌曲列表配置 ==========
@@ -22,6 +22,40 @@
     ];
     // ==================================
 
+    var STORAGE_KEY = 'aplayer_state';
+
+    // 保存播放状态到 localStorage
+    function saveState() {
+        if (!window._aplayer) return;
+        try {
+            var state = {
+                songIndex: window._aplayer.list.index,
+                currentTime: window._aplayer.audio.currentTime,
+                wasPlaying: !window._aplayer.audio.paused,
+                volume: window._aplayer.audio.volume,
+                ts: Date.now()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (e) {}
+    }
+
+    // 从 localStorage 恢复播放状态
+    function restoreState() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return null;
+            var state = JSON.parse(raw);
+            // 状态超过 24 小时则忽略
+            if (Date.now() - state.ts > 86400000) {
+                localStorage.removeItem(STORAGE_KEY);
+                return null;
+            }
+            return state;
+        } catch (e) {
+            return null;
+        }
+    }
+
     // 初始化音乐播放器（全局只初始化一次）
     function initMusicPlayer() {
         if (window._aplayer) return; // 已经初始化过，不重复创建
@@ -35,6 +69,8 @@
             document.body.appendChild(container);
         }
 
+        var savedState = restoreState();
+
         window._aplayer = new APlayer({
             container: container,
             fixed: true,
@@ -43,10 +79,33 @@
             loop: 'all',
             order: 'list',
             preload: 'auto',
-            volume: 0.7,
+            volume: savedState ? savedState.volume : 0.7,
             listFolded: true,
             audio: musicList
         });
+
+        // 恢复上次播放状态
+        if (savedState && savedState.songIndex < musicList.length) {
+            var ap = window._aplayer;
+            // 切换到上次播放的歌曲
+            ap.list.switch(savedState.songIndex);
+            // 等音频加载后跳转到上次的进度
+            ap.on('canplay', function onCanPlay() {
+                ap.off('canplay', onCanPlay);
+                if (savedState.currentTime > 0) {
+                    ap.seek(savedState.currentTime);
+                }
+                if (savedState.wasPlaying) {
+                    ap.play();
+                }
+            });
+        }
+
+        // 页面关闭或刷新前保存状态
+        window.addEventListener('beforeunload', saveState);
+
+        // 定期保存状态（防止浏览器崩溃丢失）
+        setInterval(saveState, 3000);
     }
 
     // 初始化 PJAX
