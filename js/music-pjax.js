@@ -23,19 +23,35 @@
     // ==================================
 
     var STORAGE_KEY = 'aplayer_state';
+    var _userIsPlaying = false; // 通过事件跟踪真实播放状态
 
-    // 保存播放状态到 localStorage
+    // 定期保存（记录完整状态）
     function saveState() {
         if (!window._aplayer) return;
         try {
-            var state = {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
                 songIndex: window._aplayer.list.index,
                 currentTime: window._aplayer.audio.currentTime,
-                wasPlaying: !window._aplayer.audio.paused,
+                wasPlaying: _userIsPlaying,
                 volume: window._aplayer.audio.volume,
                 ts: Date.now()
-            };
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            }));
+        } catch (e) {}
+    }
+
+    // beforeunload 专用：只更新进度，不覆盖 wasPlaying
+    function saveStateOnUnload() {
+        if (!window._aplayer) return;
+        try {
+            var raw = localStorage.getItem(STORAGE_KEY);
+            var prev = raw ? JSON.parse(raw) : {};
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                songIndex: window._aplayer.list.index,
+                currentTime: window._aplayer.audio.currentTime,
+                wasPlaying: prev.wasPlaying || false, // 保留定期保存的值
+                volume: window._aplayer.audio.volume,
+                ts: Date.now()
+            }));
         } catch (e) {}
     }
 
@@ -156,11 +172,20 @@
             }
         }
 
-        // 页面关闭或刷新前保存状态
-        window.addEventListener('beforeunload', saveState);
+        // 通过 APlayer 事件跟踪真实播放状态
+        window._aplayer.on('play', function () { _userIsPlaying = true; });
+        window._aplayer.on('pause', function () {
+            if (!window._isUnloading) _userIsPlaying = false;
+        });
 
-        // 定期保存状态（防止浏览器崩溃丢失）
-        setInterval(saveState, 3000);
+        // 页面关闭或刷新前：只更新进度，不覆盖 wasPlaying
+        window.addEventListener('beforeunload', function () {
+            window._isUnloading = true;
+            saveStateOnUnload();
+        });
+
+        // 定期保存完整状态（包括正确的 wasPlaying）
+        setInterval(saveState, 2000);
     }
 
     // 初始化 PJAX
